@@ -1,30 +1,25 @@
-FROM node:18-alpine AS builder
+FROM node:18-alpine
 
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json* ./
+COPY package.json ./
+COPY package-lock.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (use npm install instead of npm ci)
+RUN npm install
 
-# Copy source
+# Copy all source files
 COPY . .
 
-# Build the app
+# Build the application
 RUN npm run build
 
-# Production stage
-FROM node:18-alpine AS runner
-
-WORKDIR /app
-
-ENV NODE_ENV=production
-
-# Copy built app
-COPY --from=builder /app .
-
+# Expose port
 EXPOSE 3000
 
-# Start Payload CMS with serve command
+# Set environment
+ENV NODE_ENV=production
+
+# Start command
 CMD ["npm", "run", "serve"]
