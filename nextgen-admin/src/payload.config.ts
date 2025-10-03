@@ -1,4 +1,3 @@
-// storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -35,16 +34,18 @@ export default buildConfig({
     'http://localhost:3001',
     'http://127.0.0.1:3000',
     'http://127.0.0.1:3001',
-    'https://nextgencmc.org'
+    'https://nextgencmc.org',
+    'https://nextgencmc-blog-complete-production.up.railway.app'
   ],
   csrf: [
-    'http://localhost:3000', 
+    'http://localhost:3000',
     'http://localhost:3001',
     'http://127.0.0.1:3000',
     'http://127.0.0.1:3001',
-    'https://nextgencmc.org'
+    'https://nextgencmc.org',
+    'https://nextgencmc-blog-complete-production.up.railway.app'
   ],
-  serverURL: 'http://localhost:3000', // Fixed: Was 3001, should be 3000
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000',
   sharp,
   plugins: [
     payloadCloudPlugin(),
