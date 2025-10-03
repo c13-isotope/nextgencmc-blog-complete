@@ -60,7 +60,8 @@ const getImageAlt = (featuredImage: Post['featuredImage'], title: string): strin
 
 async function getPosts(): Promise<Post[]> {
   try {
-    const response = await fetch('http://127.0.0.1:3001/api/posts?limit=6&depth=2', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts?limit=6&depth=2`, {
+
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',

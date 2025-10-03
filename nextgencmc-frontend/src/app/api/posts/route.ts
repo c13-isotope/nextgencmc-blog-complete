@@ -6,7 +6,8 @@ export async function GET(request: NextRequest) {
     const limit = url.searchParams.get('limit') || '10'
     
     // Use 127.0.0.1 instead of localhost to fix connection refused
-    const response = await fetch(`http://127.0.0.1:3000/api/posts?depth=1&draft=false&limit=${limit}`)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts?depth=1&draft=false&limit=${limit}`)
+
     
     const data = await response.json()
     
