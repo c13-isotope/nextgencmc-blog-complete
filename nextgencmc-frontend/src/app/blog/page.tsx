@@ -14,7 +14,7 @@ interface Post {
   excerpt: string;
   slug?: string;
   content?: any;
-  tags?: string[]; // Add this
+  tags?: string[];
   featuredImage?: {
     id: string;
     url: string;
@@ -32,23 +32,15 @@ interface Post {
   };
 }
 
-
-
-// Helper functions with proper TypeScript handling
-// Enhanced helper function with debugging
-// Fixed helper function for blog listing page
 const getImageUrl = (featuredImage: Post['featuredImage']): string | null => {
   if (!featuredImage) return null;
   
   if (typeof featuredImage === 'object' && featuredImage.url) {
-    // The URL already includes http://localhost:3000, so use it directly
     return featuredImage.url;
   }
   
   return null;
 };
-
-
 
 const getImageAlt = (featuredImage: Post['featuredImage'], title: string): string => {
   if (typeof featuredImage === 'object') {
@@ -61,7 +53,6 @@ const getImageAlt = (featuredImage: Post['featuredImage'], title: string): strin
 async function getPosts(): Promise<Post[]> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts?limit=6&depth=2`, {
-
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
@@ -90,63 +81,18 @@ const Blog = async () => {
         description="Professional insights on pharmaceutical regulatory affairs, CMC submissions, MHRA variations, and compliance strategies from industry experts."
       />
 
-      {/* Featured Posts Section */}
-      {posts.length > 0 && (
-        <section className="pt-[120px] pb-[60px]">
-          <div className="container">
-            <div className="mx-auto max-w-[570px] text-center mb-12">
-              <h2 className="text-3xl font-bold text-black dark:text-white sm:text-4xl">
-                Featured CMC Regulatory Articles
-              </h2>
-              <p className="text-base font-medium text-body-color">
-                Expert insights on pharmaceutical regulatory compliance and MHRA submissions
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-              {posts.slice(0, 2).map((post) => (
-                <Link key={post.id} href={`/blog/${post.slug || post.id}`}>
-                  <div className="group bg-white dark:bg-dark rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                    <div className="aspect-[16/9] overflow-hidden">
-                      {(() => {
-                        const imageUrl = getImageUrl(post.featuredImage);
-                        return imageUrl ? (
-                          <img
-                            src={imageUrl}
-                            alt={getImageAlt(post.featuredImage, post.title)}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-                            <div className="text-white text-6xl">📊</div>
-                          </div>
-                        );
-                      })()}
-                    </div>
-                    <div className="p-6">
-                      <div className="mb-3">
-                        <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                          Featured
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-bold mb-3 text-black dark:text-white group-hover:text-primary transition-colors">
-                        {post.title}
-                      </h3>
-                      <p className="text-body-color text-sm leading-relaxed">
-                        {post.excerpt}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Main Blog Grid */}
-      <section className="pt-[60px] pb-[120px]">
+      {/* Main Blog Grid - Shows All Posts Only Once */}
+      <section className="pt-[120px] pb-[120px]">
         <div className="container">
+          <div className="mx-auto max-w-[570px] text-center mb-12">
+            <h2 className="text-3xl font-bold text-black dark:text-white sm:text-4xl">
+              CMC Regulatory Articles
+            </h2>
+            <p className="text-base font-medium text-body-color">
+              Expert insights on pharmaceutical regulatory compliance and MHRA submissions
+            </p>
+          </div>
+
           <div className="-mx-4 flex flex-wrap justify-center">
             {posts.length > 0 ? (
               posts.map((post) => (
